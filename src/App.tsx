@@ -1,14 +1,22 @@
 import React from 'react';
 import './App.css';
 import 'antd/dist/reset.css'
-import { Button } from 'antd';
+import { BrowserRouter as Router,Route, Switch  } from 'react-router-dom';
 import EmployeeList from './pages/employee/EmployeeList';
-function App() {
+import EmployeeTemplate from './templates/EmployeeTemplate';
+
+ 
+const App: React.FC = () => {
   return (
-    <div className='App'>
-      <EmployeeList/>
-    </div>
+    <Router>
+      <div className='App'>
+        <Switch>
+          <EmployeeTemplate path='/listemployee' WrappedComponent={EmployeeList}/>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+
