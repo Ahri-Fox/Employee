@@ -1,48 +1,40 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import EmployeeService from '../../services/EmployeeService';
 import { Employee } from '../../models/Employee';
+import { employeeService } from '../../services/EmployeeService';
 
 
-
-// Async Thunk để gọi API
-export const fetchEmployees = createAsyncThunk('?page=2', async () => {
-  const response = await EmployeeService.getAllEmployees();
-  return response.data;
-});
-
-// Khởi tạo state ban đầu
 interface EmployeeState {
-    employees: Employee[];
-  loading: boolean;
-  error: string | null;
+  employees: Employee[];
 }
-
+// Trạng thái ban đầu
 const initialState: EmployeeState = {
   employees: [],
-  loading: false,
-  error: null,
 };
 
 // Tạo Slice
-const employeeSlice = createSlice({
+const EmployeeSlice = createSlice({
   name: 'employee',
   initialState,
-  reducers: {},
+  reducers: {
+    setEmployeesAction: (state, action) => {
+      state.employees = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEmployees.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchEmployees.fulfilled, (state, action) => {
-        state.loading = false;
-        state.employees = action.payload;
-      })
-      .addCase(fetchEmployees.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch employees';
-      });
+    .addCase(getAllEmployeesApiAction.fulfilled, (state, action) => { 
+      state.employees = action.payload;
+    });
   },
 });
+export const { setEmployeesAction } = EmployeeSlice.actions;
+export default EmployeeSlice.reducer;
 
-export default employeeSlice.reducer;
+
+export const getAllEmployeesApiAction = createAsyncThunk(
+  "employees/getAllEmployeesApiAction",
+  async () => {
+    const response = await employeeService.getListEmployee();
+    return response;
+  }
+);
