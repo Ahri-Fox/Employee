@@ -1,4 +1,4 @@
-import api from '../util/settings/ApiClient';
+import api from '../util/setting/ApiClient';
 
 
 export class BaseService {

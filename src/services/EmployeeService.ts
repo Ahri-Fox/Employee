@@ -11,7 +11,10 @@ export class EmployeeService extends BaseService {
     const response = await this.get<{data: {data: Employee[]}}>('/users?page=1');
     return response.data.data
   }
-
+  async createEmployee(data: { name: string; job: string }) {
+    const response = await this.post<{ id: string; createdAt: string }>("/users", data);
+    return response;
+  }
 }
 
 export const employeeService = new EmployeeService();
