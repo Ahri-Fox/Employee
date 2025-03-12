@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
 import { Button, Input, Space, Table } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
@@ -187,6 +191,21 @@ const EmployeeList: React.FC = () => {
       key: "email",
       width: "15%",
       ...getColumnSearchProps("email"),
+    },
+    {
+      title: "",
+      key: "action",
+      width: "10%",
+      render: (text: string, record: Employee) => (
+        <Space size="middle">
+          <button className="btn btn-primary">
+            <EditOutlined />
+          </button>
+          <button className="btn btn-danger">
+            <DeleteOutlined />
+          </button>
+        </Space>
+      ),
     },
   ];
 

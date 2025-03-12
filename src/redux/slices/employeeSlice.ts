@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Employee } from '../../models/Employee';
 import { employeeService } from '../../services/EmployeeService';
 
@@ -19,18 +19,23 @@ const EmployeeSlice = createSlice({
     setEmployeesAction: (state, action) => {
       state.employees = action.payload;
     },
+    addEmployeeAction: (state, action:PayloadAction<Employee>) => {
+      state.employees.push(action.payload); // Thêm nhân viên mới vào Redux
+    },
   },
   extraReducers: (builder) => {
     builder
     .addCase(getAllEmployeesApiAction.fulfilled, (state, action) => { 
       state.employees = action.payload;
-    });
+    })
   },
 });
-export const { setEmployeesAction } = EmployeeSlice.actions;
+export const { setEmployeesAction,addEmployeeAction } = EmployeeSlice.actions;
 export default EmployeeSlice.reducer;
 
 
+// ...................................... THUNK ..........................................
+//Thunk lấy danh sách nhân viên
 export const getAllEmployeesApiAction = createAsyncThunk(
   "employees/getAllEmployeesApiAction",
   async () => {
