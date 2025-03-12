@@ -1,26 +1,17 @@
 import BaseService from './BaseServices';
 import { Employee } from '../models/Employee';
 
-class EmployeeService {
-  getAllEmployees() {
-    return BaseService.get<Employee[]>('/users');
+export class EmployeeService extends BaseService {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor() {
+    super();
   }
 
-  getEmployeeByPage(page: number) {
-    return BaseService.get<Employee>(`/users/${page}`);
+  async getListEmployee(): Promise<Employee[]> {
+    const response = await this.get<{data: {data: Employee[]}}>('/users?page=1');
+    return response.data.data
   }
 
-  createEmployee(employee: Employee) {
-    return BaseService.post<Employee>('/users', employee);
-  }
-
-  updateEmployee(id: number, employee: Employee) {
-    return BaseService.put<Employee>(`/users/${id}`, employee);
-  }
-
-  deleteEmployee(id: number) {
-    return BaseService.delete<void>(`/users/${id}`);
-  }
 }
 
-export default new EmployeeService();
+export const employeeService = new EmployeeService();
