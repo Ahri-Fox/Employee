@@ -8,6 +8,7 @@ import NewEmployee from "./pages/employee/NewEmployee";
 import Login from "./pages/login/Login";
 import HomeTemplate from "./templates/HomeTemplate";
 import Register from "./pages/register/Register";
+import UpdateEmployee from "./pages/employee/UpdateEmployee";
 
 
 const App: React.FC = () => {
@@ -23,6 +24,9 @@ const App: React.FC = () => {
 
           <EmployeeTemplate exact path="/listemployee" WrappedComponent={EmployeeList} />
           <EmployeeTemplate exact path="/employees/newemployee" WrappedComponent={NewEmployee} />
+          <EmployeeTemplate exact path="/employees/updateemployee" WrappedComponent={UpdateEmployee} />
+          <EmployeeTemplate exact path="/employees/deleteemployee" WrappedComponent={NewEmployee} />
+
         </Switch>
       </div>
     </Router>

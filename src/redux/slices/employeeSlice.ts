@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Employee } from "../../models/Employee";
 import { employeeService } from "../../services/EmployeeService";
 
@@ -18,25 +18,57 @@ const employeeSlice = createSlice({
     setEmployeesAction: (state, action) => {
       state.employees = action.payload;
     },
-    addEmployeeAction: (state, action: PayloadAction<Employee>) => {
-      state.employees.push(action.payload); // Thêm nhân viên mới vào Redux
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllEmployeesApiAction.fulfilled, (state, action) => {
       state.employees = action.payload;
     });
+    builder.addCase(createEmployeeApiAction.fulfilled, (state, action) => {
+      console.log("API Response:", action.payload);
+    });
+    builder.addCase(deleteEmployeeApiAction.fulfilled, (state, action) => {
+      console.log("📌 Deleted Employee ID:", action.payload);
+    });
   },
 });
-export const { setEmployeesAction, addEmployeeAction } = employeeSlice.actions;
+export const { setEmployeesAction } = employeeSlice.actions;
 export default employeeSlice.reducer;
 
 // ...................................... THUNK ..........................................
 //Thunk lấy danh sách nhân viên
 export const getAllEmployeesApiAction = createAsyncThunk(
-  "employees/getAllEmployeesApiAction",
+  "employees/getAllEmployees",
   async () => {
     const response = await employeeService.getListEmployee();
     return response;
+  }
+);
+
+export const createEmployeeApiAction = createAsyncThunk(
+  "employees/createEmployee",
+  async (data: { name: string; job: string }, { rejectWithValue }) => {
+    try {
+      const response = await employeeService.createEmployee(data);
+      console.log("📌 API Response:", response);
+
+      return response;
+    } catch (error) {
+      console.error("🚨 API Error:", error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteEmployeeApiAction = createAsyncThunk(
+  "employees/deleteEmployee",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      await employeeService.deleteEmployee(id);
+      console.log(`🔥 Deleting Employee: ${id}`);
+      return id;
+    } catch (error) {
+      console.error("🚨 API Delete Error:", error);
+      return rejectWithValue(error);
+    }
   }
 );

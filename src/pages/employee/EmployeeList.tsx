@@ -10,33 +10,9 @@ import type { FilterDropdownProps } from "antd/es/table/interface";
 import { Employee } from "../../models/Employee";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllEmployeesApiAction } from "../../redux/slices/employeeSlice";
+import { deleteEmployeeApiAction, getAllEmployeesApiAction } from "../../redux/slices/employeeSlice";
 
 type DataIndex = keyof Employee;
-
-// const employees: Employee[] = [
-//   {
-//     id: 1,
-//     first_name: "John",
-//     last_name: "Doe",
-//     email: "michael.lawson@reqres.in",
-//     avatar: "https://reqres.in/img/faces/1-image.jpg",
-//   },
-//   {
-//     id: 2,
-//     first_name: "John",
-//     last_name: "3",
-//     email: "michael.lawson@reqres.in",
-//     avatar: "https://reqres.in/img/faces/1-image.jpg",
-//   },
-//   {
-//     id: 3,
-//     first_name: "John",
-//     last_name: "1",
-//     email: "michael.lawson@reqres.in",
-//     avatar: "https://reqres.in/img/faces/1-image.jpg",
-//   },
-// ];
 
 const EmployeeList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -201,7 +177,7 @@ const EmployeeList: React.FC = () => {
           <button className="btn btn-primary">
             <EditOutlined />
           </button>
-          <button className="btn btn-danger">
+          <button onClick={() => dispatch(deleteEmployeeApiAction(record.id))} className="btn btn-danger">
             <DeleteOutlined />
           </button>
         </Space>
@@ -212,7 +188,9 @@ const EmployeeList: React.FC = () => {
   return (
     <Table<Employee>
       columns={columns}
-      dataSource={Array.isArray(employees.employees) ? employees.employees : []}
+      dataSource={Array.isArray(employees.employees)
+        ? employees.employees.map((emp) => ({ ...emp, key: emp.id }))
+        : []}
     />
   );
 };

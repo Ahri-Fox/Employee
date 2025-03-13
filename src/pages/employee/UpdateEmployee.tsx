@@ -1,11 +1,7 @@
-import React from "react";
+import React from 'react'
 import { Button, Form, Input } from "antd";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/configStore";
-import { createEmployeeApiAction } from "../../redux/slices/employeeSlice";
-import { useHistory } from "react-router-dom";
 
 const EmployeeSchema = Yup.object().shape({
     name: Yup.string().required("First name is required"),
@@ -13,10 +9,7 @@ const EmployeeSchema = Yup.object().shape({
 
 });
 
-
-const NewEmployee: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>()
-    const history = useHistory()
+const UpdateEmployee: React.FC = () => {
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -24,20 +17,13 @@ const NewEmployee: React.FC = () => {
 
         },
         validationSchema: EmployeeSchema,
-        onSubmit: async (values) => {
-            try {
-                await dispatch(createEmployeeApiAction(values)).unwrap();
-                alert("Employee added successfully!");
-                history.push("/listemployee");
-            } catch (error) {
-                alert("Failed to add employee!");
-            }
-
+        onSubmit: (values) => {
+            console.log(values)
         }
     })
     return (
         <div>
-            <h2 className="text-left pb-4">Add employee</h2>
+            <h2 className="text-left pb-4">Update employee</h2>
             <Form onFinish={formik.handleSubmit} labelCol={{ span: 4 }} wrapperCol={{ span: 14 }} style={{ maxWidth: 600 }}>
 
                 <Form.Item label="Name" help={formik.errors.name} validateStatus={formik.errors.name ? "error" : ""}>
@@ -53,8 +39,7 @@ const NewEmployee: React.FC = () => {
 
             </Form>
         </div>
+    )
+}
 
-    );
-};
-
-export default NewEmployee;
+export default UpdateEmployee

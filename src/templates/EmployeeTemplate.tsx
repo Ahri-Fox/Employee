@@ -1,5 +1,5 @@
 import React from "react";
-import { UploadOutlined, UserOutlined } from "@ant-design/icons";
+import { DeleteFilled, PlusOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { NavLink, Redirect, RouteProps } from "react-router-dom";
 import SubMenu from "antd/es/menu/SubMenu";
@@ -7,8 +7,6 @@ import SubMenu from "antd/es/menu/SubMenu";
 type EmployeeTemplateProps = RouteProps & {
   WrappedComponent: React.ComponentType<any>;
 };
-
-
 
 
 const EmployeeTemplate: React.FC<EmployeeTemplateProps> = ({ WrappedComponent, ...restProps }) => {
@@ -34,9 +32,13 @@ const EmployeeTemplate: React.FC<EmployeeTemplateProps> = ({ WrappedComponent, .
             <Menu.Item key="10" icon={<UserOutlined />}>
               <NavLink to="/listemployee">Employees</NavLink>
             </Menu.Item>
-            <Menu.Item key="11" icon={<UploadOutlined />}>
+            <Menu.Item key="11" icon={<PlusOutlined />}>
               <NavLink to="/employees/newemployee">Add employee</NavLink>
             </Menu.Item>
+            <Menu.Item key="12" icon={<UploadOutlined />}>
+              <NavLink to="/employees/updateemployee">Update employee</NavLink>
+            </Menu.Item>
+
           </SubMenu>
         </Menu>
       </Layout.Sider>

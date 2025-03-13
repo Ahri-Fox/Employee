@@ -31,7 +31,6 @@ const Login: React.FC = () => {
             password: values.password
 
         }))
-        console.log(result)
         if (userLoginApiAction.fulfilled.match(result)) {
             alert('Login successful')
             history.push("/listemployee")

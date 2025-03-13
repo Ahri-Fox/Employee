@@ -1,15 +1,26 @@
-import BaseService from './BaseServices';
-import { Employee } from '../models/Employee';
+import BaseService from "./BaseServices";
+import { Employee } from "../models/Employee";
 
 export class EmployeeService extends BaseService {
-  
   async getListEmployee(): Promise<Employee[]> {
-    const response = await this.get<{data: {data: Employee[]}}>('/users?page=1');
-    return response.data.data
+    const response = await this.get<{ data: { data: Employee[] } }>(
+      "/users?page=1"
+    );
+    return response.data.data;
   }
   async createEmployee(data: { name: string; job: string }) {
-    const response = await this.post<{ id: string; createdAt: string }>("/users", data);
+    const response = await this.post<{ id: string; createdAt: string }>(
+      "/users",
+      data
+    );
     return response;
+  }
+  async deleteEmployee(id: number): Promise<void> {
+    return await this.delete(`/users/${id}`);
+  }
+
+  async updateEmployee(id: number, data: { name: string; job: string }) {
+    return await this.put<{ updatedAt: string }>(`/users/${id}`, data);
   }
 }
 
