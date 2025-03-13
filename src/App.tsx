@@ -9,12 +9,15 @@ import Login from "./pages/login/Login";
 import HomeTemplate from "./templates/HomeTemplate";
 import Register from "./pages/register/Register";
 
+
 const App: React.FC = () => {
+
   return (
     <Router>
       <div className="App">
         <Switch>
           <HomeTemplate exact path="/" WrappedComponent={Login} />
+          <HomeTemplate exact path="/login" WrappedComponent={Login} />
           <HomeTemplate exact path="/register" WrappedComponent={Register} />
 
 

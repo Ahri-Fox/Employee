@@ -1,14 +1,24 @@
 import React from "react";
 import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-import { NavLink, RouteProps } from "react-router-dom";
+import { NavLink, Redirect, RouteProps } from "react-router-dom";
 import SubMenu from "antd/es/menu/SubMenu";
 
 type EmployeeTemplateProps = RouteProps & {
   WrappedComponent: React.ComponentType<any>;
 };
 
+
+
+
 const EmployeeTemplate: React.FC<EmployeeTemplateProps> = ({ WrappedComponent, ...restProps }) => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    alert('Bạn không có quyền truy cập! Vui lòng đăng nhập.')
+    return <Redirect to='/login' />
+  }
+
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Layout.Sider
