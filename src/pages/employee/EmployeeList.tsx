@@ -12,15 +12,21 @@ import { AppDispatch, RootState } from "../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEmployeeApiAction, getAllEmployeesApiAction } from "../../redux/slices/employeeSlice";
 
+
 type DataIndex = keyof Employee;
 
 const EmployeeList: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch<AppDispatch>();
   const employees = useSelector((state: RootState) => state.employees);
 
   useEffect(() => {
-    dispatch(getAllEmployeesApiAction());
-  }, [dispatch]);
+    dispatch(getAllEmployeesApiAction(currentPage));
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchText, setSearchText] = useState("");
@@ -177,7 +183,14 @@ const EmployeeList: React.FC = () => {
           <button className="btn btn-primary">
             <EditOutlined />
           </button>
-          <button onClick={() => dispatch(deleteEmployeeApiAction(record.id))} className="btn btn-danger">
+          <button onClick={async () => {
+            try {
+              await dispatch(deleteEmployeeApiAction(record.id)).unwrap();
+              alert("Employee deleted successfully!!");
+            } catch (error) {
+              alert("Failed to delete employee. Please try again!");
+            }
+          }} className="btn btn-danger">
             <DeleteOutlined />
           </button>
         </Space>
@@ -191,8 +204,16 @@ const EmployeeList: React.FC = () => {
       dataSource={Array.isArray(employees.employees)
         ? employees.employees.map((emp) => ({ ...emp, key: emp.id }))
         : []}
+      pagination={{
+        current: currentPage,
+        total: 12,
+        pageSize: 6,
+        onChange: handlePageChange,
+      }}
     />
   );
 };
 
 export default EmployeeList;
+
+

@@ -2,9 +2,9 @@ import BaseService from "./BaseServices";
 import { Employee } from "../models/Employee";
 
 export class EmployeeService extends BaseService {
-  async getListEmployee(): Promise<Employee[]> {
+  async getListEmployee(page: number): Promise<Employee[]> {
     const response = await this.get<{ data: { data: Employee[] } }>(
-      "/users?page=1"
+      `/users?page=${page}`
     );
     return response.data.data;
   }

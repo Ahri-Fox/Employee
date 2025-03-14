@@ -38,8 +38,8 @@ export default employeeSlice.reducer;
 //Thunk lấy danh sách nhân viên
 export const getAllEmployeesApiAction = createAsyncThunk(
   "employees/getAllEmployees",
-  async () => {
-    const response = await employeeService.getListEmployee();
+  async (page: number) => {
+    const response = await employeeService.getListEmployee(page);
     return response;
   }
 );

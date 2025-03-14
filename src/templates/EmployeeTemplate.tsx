@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteFilled, PlusOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { NavLink, Redirect, RouteProps } from "react-router-dom";
 import SubMenu from "antd/es/menu/SubMenu";
